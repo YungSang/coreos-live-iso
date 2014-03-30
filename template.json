@@ -1,0 +1,43 @@
+{
+  "builders": [{
+    "type"                 : "virtualbox-iso",
+    "iso_url"              : "coreos.iso",
+    "iso_checksum"         : "d4da86f04742528154f60f5808deebca",
+    "iso_checksum_type"    : "none",
+    "boot_wait"            : "10s",
+    "ssh_username"         : "core",
+    "ssh_key_path"         : "tmp/insecure_private_key",
+    "shutdown_command"     : "sudo -S shutdown -P now",
+    "guest_additions_mode" : "disable",
+    "guest_os_type"        : "Linux26_64",
+    "vboxmanage"           : [
+      ["modifyvm", "{{.Name}}", "--memory", "1024"]
+    ]
+  }],
+
+  "provisioners": [{
+      "type": "file",
+      "source": "oem/",
+      "destination": "/tmp"
+  }, {
+    "type": "shell",
+    "inline": [
+      "sudo chmod +x /tmp/coreos-install",
+      "sudo /tmp/coreos-install -V alpha -d /dev/sda",
+
+      "sudo mount /dev/sda9 /mnt",
+      "cp /home/core/.ssh/authorized_keys /mnt/root/home/core/.ssh/",
+      "sudo umount /mnt",
+
+      "sudo mount /dev/sda6 /mnt",
+      "sudo cp /tmp/cloud-config.yml /mnt/",
+      "sudo umount /mnt"
+    ]
+  }],
+
+  "post-processors": [{
+    "type"                 : "vagrant",
+    "vagrantfile_template" : "vagrantfile.tpl",
+    "output"               : "coreos.box"
+  }]
+}

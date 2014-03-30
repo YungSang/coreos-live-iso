@@ -1,15 +1,24 @@
-# Build CoreOS Live ISO with Docker
+# Build CoreOS Live ISO with Docker and Packer
 
 ## Usage
 
+- To build an ISO with Docker
+
 ```
-$ make
+$ make iso
+```
+
+- To build a box with Packer
+
+```
+$ make box
 ```
 
 ## Requirements
 
 - [VirtualBox](https://www.virtualbox.org/)
 - [Vagrant](http://www.vagrantup.com/)
+- [Packer](http://www.packer.io/)
 
 ## Original Author
 
