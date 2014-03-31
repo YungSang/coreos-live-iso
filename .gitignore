@@ -1,6 +1,5 @@
 .vagrant/
 tmp/
-oem/
 *.iso
 *.box
 test/
