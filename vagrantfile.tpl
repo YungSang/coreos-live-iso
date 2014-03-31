@@ -1,3 +1,5 @@
+require_relative "override-plugin.rb"
+
 Vagrant.configure("2") do |config|
   # SSH in as the default 'core' user, it has the vagrant ssh key.
   config.ssh.username = "core"

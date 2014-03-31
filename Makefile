@@ -10,7 +10,8 @@ oem/authorized_keys:
 
 box: coreos.box
 
-coreos.box: coreos.iso template.json vagrantfile.tpl tmp/insecure_private_key \
+coreos.box: coreos.iso template.json vagrantfile.tpl \
+	tmp/insecure_private_key tmp/override-plugin.rb \
 	oem/coreos-install oem/cloud-config.yml
 	packer build template.json
 
@@ -27,6 +28,11 @@ oem/coreos-install:
 oem/cloud-config.yml:
 	mkdir -p oem
 	curl -L https://raw.github.com/coreos/coreos-overlay/master/coreos-base/oem-vagrant/files/cloud-config.yml -o oem/cloud-config.yml
+
+tmp/override-plugin.rb:
+	mkdir -p tmp
+	cd tmp; \
+	curl -LO https://raw.github.com/coreos/coreos-vagrant/master/override-plugin.rb
 
 clean:
 	vagrant destroy -f
