@@ -37,7 +37,7 @@
 
   "post-processors": [{
     "type"                 : "vagrant",
-    "include"              : ["tmp/override-plugin.rb"],
+    "include"              : ["oem/override-plugin.rb"],
     "vagrantfile_template" : "vagrantfile.tpl",
     "output"               : "coreos.box"
   }]

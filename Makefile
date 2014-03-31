@@ -9,9 +9,8 @@ oem/authorized_keys:
 
 box: coreos.box
 
-coreos.box: coreos.iso template.json vagrantfile.tpl \
-	tmp/insecure_private_key tmp/override-plugin.rb \
-	oem/coreos-install oem/cloud-config.yml
+coreos.box: coreos.iso template.json vagrantfile.tpl tmp/insecure_private_key \
+	oem/coreos-install oem/cloud-config.yml oem/override-plugin.rb
 	packer build template.json
 
 tmp/insecure_private_key:
@@ -22,10 +21,6 @@ oem/coreos-install:
 	curl -L https://raw.github.com/coreos/init/master/bin/coreos-install -o oem/coreos-install
 	sed -e "s/amd64-generic/amd64-usr/g" -i "" oem/coreos-install
 	sed -e "s/partprobe/partprobe \|\| true/g" -i "" oem/coreos-install
-
-tmp/override-plugin.rb:
-	mkdir -p tmp
-	curl -L https://raw.github.com/coreos/coreos-vagrant/master/override-plugin.rb -o tmp/override-plugin.rb
 
 clean:
 	vagrant destroy -f
