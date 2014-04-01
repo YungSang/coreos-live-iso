@@ -1,42 +1,53 @@
 #cloud-config
+
+ssh_authorized_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoPkcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0zQPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbUvxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key
+
 coreos:
-    units:
-      - name: coreos-cloudinit-vagrant.path
-        command: start
-        runtime: no
-        content: |
-          [Path]
-          PathExists=/var/lib/coreos-vagrant/user-data
+  oem:
+    id: vagrant
+    name: CoreOS.box for Vagrant
+    version-id: 0.5.0
+    home-url: https://vagrantcloud.com/yungsang/coreos
+    bug-report-url: https://github.com/YungSang/coreos-live-iso
 
-          [Install]
-          WantedBy=multi-user.target
+  units:
+    - name: coreos-cloudinit-vagrant.path
+      command: start
+      runtime: no
+      content: |
+        [Path]
+        PathExists=/var/lib/coreos-vagrant/user-data
 
-      - name: coreos-cloudinit-vagrant.service
-        runtime: no
-        content: |
-          [Unit]
-          ConditionFileNotEmpty=/var/lib/coreos-vagrant/user-data
+        [Install]
+        WantedBy=multi-user.target
 
-          [Service]
-          Type=oneshot
-          EnvironmentFile=-/etc/environment
-          ExecStart=/usr/bin/coreos-cloudinit --from-file /var/lib/coreos-vagrant/user-data
-          RemainAfterExit=yes
+    - name: coreos-cloudinit-vagrant.service
+      runtime: no
+      content: |
+        [Unit]
+        ConditionFileNotEmpty=/var/lib/coreos-vagrant/user-data
 
-      - name: docker-tcp.socket
-        command: start
-        runtime: no
-        content: |
-          [Unit]
-          Description=Docker Socket for the API
+        [Service]
+        Type=oneshot
+        EnvironmentFile=-/etc/environment
+        ExecStart=/usr/bin/coreos-cloudinit --from-file /var/lib/coreos-vagrant/user-data
+        RemainAfterExit=yes
 
-          [Socket]
-          ListenStream=4243
-          Service=docker.service
-          BindIPv6Only=both
+    - name: docker-tcp.socket
+      command: start
+      runtime: no
+      content: |
+        [Unit]
+        Description=Docker Socket for the API
 
-          [Install]
-          WantedBy=sockets.target
+        [Socket]
+        ListenStream=4243
+        Service=docker.service
+        BindIPv6Only=both
 
-      - name: docker.service
-        command: start
+        [Install]
+        WantedBy=sockets.target
+
+    - name: docker.service
+      command: start

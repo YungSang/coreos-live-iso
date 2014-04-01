@@ -25,10 +25,6 @@
       "sudo chmod +x /tmp/coreos-install",
       "sudo /tmp/coreos-install -d /dev/sda",
 
-      "sudo mount /dev/sda9 /mnt",
-      "cp /home/core/.ssh/authorized_keys /mnt/root/home/core/.ssh/",
-      "sudo umount /mnt",
-
       "sudo mount /dev/sda6 /mnt",
       "sudo cp /tmp/cloud-config.yml /mnt/",
       "sudo umount /mnt"
