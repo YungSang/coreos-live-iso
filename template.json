@@ -23,7 +23,7 @@
     "type": "shell",
     "inline": [
       "sudo chmod +x /tmp/coreos-install",
-      "sudo /tmp/coreos-install -V alpha -d /dev/sda",
+      "sudo /tmp/coreos-install -d /dev/sda",
 
       "sudo mount /dev/sda9 /mnt",
       "cp /home/core/.ssh/authorized_keys /mnt/root/home/core/.ssh/",

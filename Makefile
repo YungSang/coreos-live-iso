@@ -19,8 +19,6 @@ tmp/insecure_private_key:
 
 oem/coreos-install:
 	curl -L https://raw.github.com/coreos/init/master/bin/coreos-install -o oem/coreos-install
-	sed -e "s/amd64-generic/amd64-usr/g" -i "" oem/coreos-install
-	sed -e "s/partprobe/partprobe \|\| true/g" -i "" oem/coreos-install
 
 clean:
 	vagrant destroy -f
