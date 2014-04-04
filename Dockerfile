@@ -7,7 +7,6 @@ ENV COREOS_VERSION   alpha
 
 ENV BOOT_ENV         bios
 ENV CURL             curl
-ENV SSH_PUBKEY_PATH  oem/authorized_keys
 
 # Initialze variables
 ENV SYSLINUX_BASE_URL      ftp://www.kernel.org/pub/linux/utils/boot/syslinux
@@ -59,10 +58,6 @@ RUN echo "-----> Download syslinux and copy to iso directory" && \
     cp $SYSLINUX_BASENAME/$BOOT_ENV/memdisk/memdisk iso/syslinux/ && \
     cp $SYSLINUX_BASENAME/$BOOT_ENV/core/isolinux.bin iso/isolinux/ && \
     cp $SYSLINUX_BASENAME/$BOOT_ENV/com32/elflink/ldlinux/ldlinux.c32 iso/isolinux/
-
-ADD oem/ /coreos/oem/
-
-RUN chown -R root:root oem/
 
 ADD makeiso.sh /coreos/
 
